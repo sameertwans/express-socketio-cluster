@@ -2,7 +2,6 @@ const express = require('express');
 const http = require('http');
 const socketIo = require('socket.io');
 const { Pool } = require('pg');
-const redis = require('redis');
 const cluster = require('cluster');
 const os = require('os');
 const path = require('path');
@@ -17,9 +16,6 @@ const pool = new Pool({
   password: process.env.DB_PASSWORD,
   port: process.env.DB_PORT,
 });
-
-// Redis setup
-const redisClient = redis.createClient();
 
 // if (cluster.isMaster) {
 //   console.log(`Master ${process.pid} is running`);
@@ -73,7 +69,7 @@ io.on('connection', (socket) => {
 
   socket.on('locationUpdate', async (data) => {
     // console.log('Received locationUpdate:', data);
-    
+
     // Specific point (center of Kathmandu as an example)
     const centerLat = 27.68534594572206;
     const centerLon = 85.34885581000817
